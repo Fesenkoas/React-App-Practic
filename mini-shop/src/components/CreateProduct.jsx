@@ -16,17 +16,22 @@ const CreateProduct = ({ onCreate }) => {
   const [value, setValue] = useState("");
   const [error, setError] = useState("");
 
+  // async function fetchCreate() {
+  //   const res = await fetch("https://fakestoreapi.com/products", {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       title: "value",
+  //       price: 13.5,
+  //       description: "lorem ipsum set",
+  //       image: "https://i.pravatar.cc",
+  //       category: "electronic",
+  //     }),
+  //   });
+  //   const data = await res.json();
+  //   onCreate(data);
+  // }
   async function fetchCreate() {
-    const res = await fetch("https://fakestoreapi.com/products", {
-      method: "POST",
-      body: JSON.stringify({
-        title: "value",
-        price: 13.5,
-        description: "lorem ipsum set",
-        image: "https://i.pravatar.cc",
-        category: "electronic",
-      }),
-    });
+    const res = await fetch("https://fakestoreapi.com/products");
     const data = await res.json();
     onCreate(data);
   }
