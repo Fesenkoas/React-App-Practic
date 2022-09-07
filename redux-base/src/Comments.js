@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SinglComment from "./SinglComment";
 import { useDispatch, useSelector } from 'react-redux';
 import uniqid from 'uniqid'
-import { commentCreate } from "./redux/action";
+import { commentCreate, commentLoad } from "./redux/action";
 
 const Comments = () => {
     const  [ text, setText ] = useState("");
@@ -20,7 +20,12 @@ const Comments = () => {
 
   const hendleInput = (e) =>{
     setText(e.target.value)
-  }
+  };
+
+  useEffect(()=>{
+   dispatch(commentLoad());
+  },[]);
+
   return (
     <div className="card-comments">
       <form onSubmit={handleSubmit} className="comments-item-create">
