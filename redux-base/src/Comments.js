@@ -39,7 +39,7 @@ const Comments = () => {
       {comments.lenght ?? comments.map(res =>{
         return <SinglComment key={res.id} data={res}/>
       })}
-      {/* <SinglComment /> */}
+    
     </div>
   );
 };
