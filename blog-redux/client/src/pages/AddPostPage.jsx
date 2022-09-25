@@ -1,40 +1,43 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createPost } from './../redux/future/post/postSlise';
+import { createPost } from "./../redux/future/post/postSlise";
 
 export const AddPostPage = () => {
   const [title, setTitle] = useState("");
-  const [post, setPost] = useState("");
+  const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const dispatch = useDispatch();
 
   const handleClickAdd = () => {
     try {
-      console.log(title, post, image);
+      console.log(title, text, image);
       const data = new FormData();
-      data.append('title',title)
-      data.append('post',post)
-      data.append('image',image)
-      console.log(data);
-      setPost('');
-      setTitle('');
-      setImage('');
-      dispatch(createPost(data))
+      data.append("title", title);
+      data.append("text", text);
+      data.append("image", image);
+      setText("");
+      setTitle("");
+      setImage("");
+      dispatch(createPost(data));
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   const handleClickCancel = () => {
-    setPost('');
-    setTitle('');
+    setText("");
+    setTitle("");
   };
 
   return (
     <form className="w-1/3 mx-auto py-10" onSubmit={(e) => e.preventDefault()}>
       <label className="text-gray-300 py2 bg-gray-600 text-xsmt-3 flex items-center justify-center border-2 border-dotted cursor-pointer">
         Add image
-        <input type="file" className="hidden" onChange={(e)=> setImage(e.target.files[0])} />
+        <input
+          type="file"
+          className="hidden"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
       </label>
       <div className="flex object-cover py-2 ">IMAGE</div>
 
@@ -51,8 +54,8 @@ export const AddPostPage = () => {
       <label className="text-xs text-white opacity-70">
         Text Post
         <textarea
-          onChange={(e) => setPost(e.target.value)}
-          value={post}
+          onChange={(e) => setText(e.target.value)}
+          value={text}
           placeholder="text post"
           className="mt-1 text-black w-full rounded-lg bg-gray-400 border py-1 px-2 text-xs outline-none resize-none h-40 placeholder:text-gray-700 "
         />
