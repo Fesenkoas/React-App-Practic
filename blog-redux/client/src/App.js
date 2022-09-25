@@ -16,9 +16,11 @@ import { getMe } from "./redux/future/auth/authSlice";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getMe());
+  // }, [dispatch]);
+
+  
   return (
     <Layout>
       <Routes>

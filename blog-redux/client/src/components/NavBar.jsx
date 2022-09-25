@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 export const NavBar = () => {
   const isAuth = useSelector(checkIsAuth);
   const dispatch = useDispatch();
+  
   const activeStyle = {
     color: "white",
   };
