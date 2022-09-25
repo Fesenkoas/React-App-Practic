@@ -46,9 +46,9 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const getMe = createAsyncThunk("auth/getMe", async () => {
+export const getMe = createAsyncThunk("/auth/getMe", async () => {
   try {
-    const { data } = await axios.post("/auth/me");
+    const { data } = await axios.get("/auth/me");
     return data;
   } catch (e) {
     console.log(e);
@@ -103,6 +103,7 @@ export const authSlice = createSlice({
       state.status = null;
     },
     [getMe.fulfilled]: (state, action) => {
+      console.log(action.payload.message);
       state.isLogin = false;
       state.status = null;
       state.user = action.payload?.user;

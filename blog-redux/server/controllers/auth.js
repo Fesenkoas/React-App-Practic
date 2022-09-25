@@ -1,4 +1,4 @@
-import User from "../Models/User.js";
+import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -71,8 +71,9 @@ export const login = async (req, res) => {
 
 //Get Me
 export const getMe = async (req, res) => {
+
   try {
-    const user = await User.findById(req.userID);
+    const user = await User.findById(req.userId);
     if (!user) {
       return res.json({ message: "User is not a find" });
     }
@@ -83,7 +84,7 @@ export const getMe = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
     );
-    req.json({ user, token });
+    res.json({ user, token, message: "Done" });
   } catch (error) {
     return res.json({ message: "No access" });
   }
