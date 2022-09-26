@@ -27,6 +27,28 @@ export const getAllPost = createAsyncThunk("post/getAllPost", async () => {
     console.log(error);
   }
 });
+
+export const removePost = createAsyncThunk("post/removePost", async (id) => {
+  try {
+    const { data } = await axios.delete(`/posts/${id}`, id);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const editPost = createAsyncThunk(
+  "post/editPost",
+  async (updatedPost) => {
+    try {
+      const { data } = await axios.put(`/posts/${updatedPost.id}`, updatedPost);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -49,10 +71,35 @@ export const postSlice = createSlice({
     },
     [getAllPost.fulfilled]: (state, action) => {
       state.isLogin = false;
-      state.posts=action.payload.posts;
+      state.posts = action.payload.posts;
       state.popularPosts = action.payload.popularPosts;
     },
     [getAllPost.rejected]: (state) => {
+      state.isLogin = false;
+    },
+    //removePost
+    [removePost.pending]: (state) => {
+      state.isLogin = true;
+    },
+    [removePost.fulfilled]: (state, action) => {
+      state.isLogin = false;
+      state.posts = state.posts.filter(
+        (post) => post._id !== action.payload._id
+      );
+    },
+    [removePost.rejected]: (state) => {
+      state.isLogin = false;
+    },
+    //editPost
+    [editPost.pending]: (state) => {
+      state.isLogin = true;
+    },
+    [editPost.fulfilled]: (state, action) => {
+      state.loading = false;
+      const index = state.posts.findIndex((post) => post._id === action.payload._id);
+      state.posts[index] = action.payload;
+    },
+    [editPost.rejected]: (state) => {
       state.isLogin = false;
     },
   },

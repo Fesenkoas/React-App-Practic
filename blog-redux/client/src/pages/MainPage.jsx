@@ -13,21 +13,15 @@ export const MainPage = () => {
     dispatch(getAllPost());
   }, [dispatch]);
 
-  if (!posts.lenth) {
-    return (
-      <div className="text-xl text-center text-white py-10">
-        'Not Have Posts'
-      </div>
-    );
-  }
+
   return (
     <div className="max-w-[900px] mx-auto py-10">
       <div className="flex justify-between gap-8">
         <div className="flex flex-col gap-10 basis-4/5">
-          <PostItem />
-          <PostItem />
-          <PostItem />
-          <PostItem />
+          {
+            posts?.map((post, idx) => (
+              <PostItem key={idx} post={post} />)
+          )}
         </div>
         <div className="basis-1/5">
           <div className="text-xs uppercase text-white">Popular Post</div>

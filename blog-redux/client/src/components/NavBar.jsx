@@ -49,7 +49,7 @@ export const NavBar = () => {
         </div>
       )}
 
-      <div className="flex jutify-center items-center bg-gray-400 text-sx text-white rounded-lg px-4 py-2">
+      <div className="flex jutify-center items-center bg-gray-400 text-sx text-white rounded-lg px-4 py-2  hover:bg-gray-800">
         <button>{isAuth ? <Link onClick={handleLogout} to={"/login"}>Logout</Link> : <Link to={"/login"}>Login</Link>}</button>
 
       </div>

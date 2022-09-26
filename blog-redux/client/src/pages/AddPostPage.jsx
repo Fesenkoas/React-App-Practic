@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import { useDispatch } from "react-redux";
 import { createPost } from "./../redux/future/post/postSlise";
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,6 @@ export const AddPostPage = () => {
 
   const handleClickAdd = () => {
     try {
-      console.log(title, text, image);
       const data = new FormData();
       data.append("title", title);
       data.append("text", text);
