@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createPost } from "./../redux/future/post/postSlise";
+import { useNavigate } from 'react-router-dom';
 
 export const AddPostPage = () => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [image, setImage] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClickAdd = () => {
     try {
@@ -19,6 +21,7 @@ export const AddPostPage = () => {
       setTitle("");
       setImage("");
       dispatch(createPost(data));
+      navigate('/')
     } catch (error) {
       console.log(error);
     }
@@ -27,6 +30,7 @@ export const AddPostPage = () => {
   const handleClickCancel = () => {
     setText("");
     setTitle("");
+    setImage("");
   };
 
   return (
@@ -39,7 +43,9 @@ export const AddPostPage = () => {
           onChange={(e) => setImage(e.target.files[0])}
         />
       </label>
-      <div className="flex object-cover py-2 ">IMAGE</div>
+      <div className="flex object-cover py-2 ">
+        {image && <img src={URL.createObjectURL(image)} alt={image.name}/>}
+      </div>
 
       <label className="text-xs text-white opacity-70">
         Header Post

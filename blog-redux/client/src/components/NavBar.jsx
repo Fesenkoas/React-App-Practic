@@ -19,8 +19,8 @@ export const NavBar = () => {
   };
   return (
     <div className="flex py-4 justify-between items-center">
-      <span className="flex jutify-center w-6 h-6 bg-gray-600 text-xs text-white roundet-sm">
-        E
+      <span className="flex jutify-center text-xl   text-white font-extrabold  px-1 py-2">
+        BLOG-X
       </span>
 
       {isAuth && (
@@ -49,7 +49,7 @@ export const NavBar = () => {
         </div>
       )}
 
-      <div className="flex jutify-center items-center bg-gray-600 text-sx text-white roundet-sm px-4 py-2">
+      <div className="flex jutify-center items-center bg-gray-400 text-sx text-white rounded-lg px-4 py-2">
         <button>{isAuth ? <Link onClick={handleLogout} to={"/login"}>Logout</Link> : <Link to={"/login"}>Login</Link>}</button>
 
       </div>

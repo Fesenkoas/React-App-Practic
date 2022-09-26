@@ -17,7 +17,7 @@ export const createPost = async (req, res) => {
         username: user.username,
         title,
         text,
-        imageUrl: fileName,
+        imgUrl: fileName,
         autor: req.userId,
       });
 
@@ -45,3 +45,19 @@ export const createPost = async (req, res) => {
     res.json({ message:'So some wrong' });
   }
 };
+
+//Get All Posts
+
+export const getAll = async (req, res) =>{
+  try {
+    const posts = await Post.find().sort('-createdAt')
+    const popularPosts = await Post.find().limit(5).sort('-views')
+    if(!posts){
+      return res.json({message:'Not Post'})
+    }
+    res.json({posts, popularPosts})
+  } catch (error) {
+    res.json({ message: error.message });
+  }
+}
+
