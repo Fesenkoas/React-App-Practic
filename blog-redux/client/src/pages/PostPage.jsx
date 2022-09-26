@@ -109,7 +109,7 @@ export const PostPage = () => {
                 </button>
                 <button className="flex items-center justify-center gap-2 text-white opacity-70">
                   <AiOutlineMessage />
-                  <span>{post.comments?.lenth || 0}</span>
+                  <span>{post.comments?.length || 0}</span>
                 </button>
               </div>
               {user?._id === post.autor && (
