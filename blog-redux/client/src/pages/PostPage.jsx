@@ -1,37 +1,69 @@
 import axios from "../utils/axios";
 import React, { useEffect, useState } from "react";
 import { useCallback } from "react";
-import { AiFillEye, AiOutlineMessage, AiTwotoneEdit, AiFillDelete } from "react-icons/ai";
+import {
+  AiFillEye,
+  AiOutlineMessage,
+  AiTwotoneEdit,
+  AiFillDelete,
+} from "react-icons/ai";
 import Moment from "react-moment";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { removePost } from './../redux/future/post/postSlise';
-import { toast } from 'react-toastify';
+import { removePost } from "./../redux/future/post/postSlise";
+import { toast } from "react-toastify";
+import {
+  createComment,
+  getPostComment,
+} from "../redux/future/comment/commentSlice";
+import CommentsItem from "../components/CommentsItem";
 
 export const PostPage = () => {
   const [post, setPost] = useState(null);
+  const [comment, setComment] = useState("");
   const { user } = useSelector((state) => state.auth);
+  const { comments } = useSelector((state) => state.comment);
   const dispatch = useDispatch();
   const params = useParams();
-  const navgate = useNavigate()
+  const navgate = useNavigate();
+  const commentHandle = () => {
+    try {
+      const postId = params.id;
+      dispatch(createComment({ postId, comment }));
+      setComment("");
+    } catch (error) {}
+  };
 
-const removeHandler =() =>{
-  try {
-    dispatch(removePost(params.id))
-    toast('Post remove')
-    navgate('/posts')
-  } catch (error) {
-    console.log(error);
-  }
-}
+  const removeHandler = () => {
+    try {
+      dispatch(removePost(params.id));
+      toast("Post remove");
+      navgate("/posts");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchPost = useCallback(async () => {
     const { data } = await axios.get(`/posts/${params.id}`);
     setPost(data);
   }, [params.id]);
 
+  const fetchComment = useCallback(async () => {
+    try {
+      dispatch(getPostComment(params.id));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params.id,dispatch]);
+
   useEffect(() => {
     fetchPost();
-  }, [fetchPost]);
+    fetchComment();
+  }, [fetchPost, fetchComment]);
+
+  // useEffect(() => {
+  //   fetchComment();
+  // }, [fetchComment]);
 
   if (!post) {
     return (
@@ -83,9 +115,14 @@ const removeHandler =() =>{
               {user?._id === post.autor && (
                 <div className="flex gap-3 mt-4">
                   <button className="flex items-center justify-center gap-2 text-white opacity-70">
-                    <Link to={`/${params.id}/edit`}><AiTwotoneEdit /></Link>
+                    <Link to={`/${params.id}/edit`}>
+                      <AiTwotoneEdit />
+                    </Link>
                   </button>
-                  <button onClick={removeHandler} className="flex items-center justify-center gap-2 text-white opacity-70">
+                  <button
+                    onClick={removeHandler}
+                    className="flex items-center justify-center gap-2 text-white opacity-70"
+                  >
                     <AiFillDelete />
                   </button>
                 </div>
@@ -93,7 +130,25 @@ const removeHandler =() =>{
             </div>
           </div>
         </div>
-        <div className="w-1/3">Comments</div>
+        <div className="w-1/3 p-8 bg-gray-400 flex flex-col gap-2 rounded-sm">
+          <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+            <input
+              onChange={(e) => setComment(e.target.value)}
+              value={comment}
+              type="text"
+              placeholder="Comment"
+              className="text-black w-full rounded-sm bg-gray-300 border p-2 text-xs outline-none placeholder:text-gray-700"
+            />
+            <button
+              onClick={commentHandle}
+              type="submit"
+              className="flex justify-center items-center bg-gray-600 text-xs text-white rounded-sm py-4 px-4"
+            >
+              Comments
+            </button>
+          </form>
+          {comments?.map((cmt)=> (<CommentsItem key={cmt._id} cmt={cmt}/>))}
+        </div>
       </div>
     </div>
   );

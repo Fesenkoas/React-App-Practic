@@ -103,7 +103,6 @@ export const authSlice = createSlice({
       state.status = null;
     },
     [getMe.fulfilled]: (state, action) => {
-      console.log(action.payload.message);
       state.isLogin = false;
       state.status = null;
       state.user = action.payload?.user;
