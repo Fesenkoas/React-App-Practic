@@ -26,6 +26,7 @@ export const PostPage = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const navgate = useNavigate();
+  
   const commentHandle = () => {
     try {
       const postId = params.id;
