@@ -1,4 +1,4 @@
-import { getUsers } from "../redux/userSlice";
+import { getUsers, getProfile, loading, getFollowed } from "../redux/userSlice";
 
 const baseURL = "https://social-network.samuraijs.com/api/1.0/";
 const instanseGet = {
@@ -36,7 +36,6 @@ export const postFollowFetch = (id) => {
   return (dispatch) => {
     fetch(`${baseURL}follow/${id}`,instansePost)
       .then((response) => response.data)
-      //.then((data) => dispatch(getUsers(data)));
   };
 }
 
@@ -44,6 +43,22 @@ export const deleteFollowFetch = (id) => {
   return (dispatch) => {
     fetch(`${baseURL}follow/${id}`, instanseDelete)
       .then((response) => response.data)
-      //.then((data) => console.log(data));
+  };
+};
+export const getFollowFetch = (id) => {
+  return (dispatch) => {
+    fetch(`${baseURL}follow/${id}`, instanseGet)
+    .then((res) => res.json())
+      .then((data) => dispatch(getFollowed(data)));
+  };
+};
+
+export const getProfileFetch = (id) => {
+  return (dispatch) => {
+    dispatch(loading(false))
+    fetch(`${baseURL}profile/${id}`, instanseGet)
+      .then((res) => res.json())
+      .then((data) => dispatch(getProfile(data)));
+      
   };
 };
