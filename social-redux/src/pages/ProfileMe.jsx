@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getProfileFetch } from "../future/action/getUsersFetch";
 import { useSelector } from "react-redux";
+import AboutMe from "../component/AboutMe";
 
 export const ProfileMe = () => {
   const dispatch = useDispatch();
@@ -39,58 +40,7 @@ export const ProfileMe = () => {
                 )}
               </div>
             </div>
-            {/* About ME */}
-            <div className="flex flex-col bg-white bg-opacity-30 w-full h-96 mr-5 my-5 p-5  rounded-lg">
-              <div className="text-3xl text-center">{profile.fullName}</div>
-              <div>
-                <div className="text-xl">Contacts:</div>
-                {profile.contacts.facebook && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center  mb-1 rounded-lg">
-                    <a href={profile.contacts.facebook}>Facebook</a>
-                  </div>
-                )}
-                {profile.contacts.github && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center  mb-1 rounded-lg">
-                    <a href={profile.contacts.github}>GitHub</a>
-                  </div>
-                )}
-                {profile.contacts.instagram && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center mb-1  rounded-lg">
-                    <a href={profile.contacts.instagram}>Instagram</a>
-                  </div>
-                )}
-                {profile.contacts.mainLink && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center mb-1  rounded-lg">
-                    <a href={profile.contacts.mainLink}>MainLink</a>
-                  </div>
-                )}
-                {profile.contacts.twitter && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center  mb-1 rounded-lg">
-                    <a href={profile.contacts.twitter}>Twitter</a>
-                  </div>
-                )}
-                {profile.contacts.vk && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center  mb-1 rounded-lg">
-                    <a href={profile.contacts.vk}>VK</a>
-                  </div>
-                )}
-                {profile.contacts.website && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center  mb-1 rounded-lg">
-                    <a href={profile.contacts.website}>Website</a>
-                  </div>
-                )}
-                {profile.contacts.youtube && (
-                  <div className="flex bg-white bg-opacity-30 w-20 h-8 items-center mb-1  rounded-lg">
-                    <a href={profile.contacts.youtube}>YouTube</a>
-                  </div>
-                )}
-              </div>
-              <div className="text-xl">STATUS:</div>
-              <div>{profile.aboutMe}</div>
-              {profile.lookingForAJob &&(<>
-            <div className="text-xl">Looking For A Job:</div>
-            <div>{profile.lookingForAJobDescription}</div></>)}
-            </div>
+            <AboutMe profile={profile}/>
           </div>
           {/* My Post */}
           <div className="flex-col mr-5 ml-5 bg-white bg-opacity-30 h-auto rounded-lg text-center items-center">

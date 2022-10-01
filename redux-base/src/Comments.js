@@ -24,7 +24,7 @@ const Comments = () => {
 
   useEffect(()=>{
    dispatch(commentLoad());
-  },[]);
+  },[dispatch]);
 
   return (
     <div className="card-comments">
