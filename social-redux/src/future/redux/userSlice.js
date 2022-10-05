@@ -28,8 +28,11 @@ const userSlice = createSlice({
     getFollowed(state, action) {
       state.followed = action.payload;
     },
+    getStatus(state,action){
+      state.status = action.payload
+    }
   },
 });
 
 export default userSlice.reducer;
-export const { getUsers, getProfile, loading, getFollowed } = userSlice.actions;
+export const { getUsers, getProfile, loading, getFollowed, getStatus } = userSlice.actions;

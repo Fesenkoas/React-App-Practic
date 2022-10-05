@@ -2,15 +2,10 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { count } from "./../constant/const";
-import { Link, useNavigate } from 'react-router-dom';
-import {
-  getUsersFetch,
-  deleteFollowFetch,
-  postFollowFetch,
-} from "./../future/action/getUsersFetch";
+import {getUsersFetch} from "./../future/action/getUsersFetch";
+import { User } from "../component/User";
 
 export const ListUsers = () => {
-  const navigate = useNavigate();
   const [array, setArray] = useState(count);
   const { users, totalCount } = useSelector((state) => state.user);
   const [page, setPage] = useState(1);
@@ -29,16 +24,7 @@ export const ListUsers = () => {
     if (num === pagesCount) setArray(pages.slice(num - 5));
     if (num === 1) setArray(pages.slice(num - 1, num + 4));
   };
-  const followHandle = (user) => {
-    if (user.followed) {
-      dispatch(deleteFollowFetch(user.id));
-      dispatch(getUsersFetch(page));
-    } else {
-      dispatch(postFollowFetch(user.id));
-      dispatch(getUsersFetch(page));
-    }
-    changePage(page);
-  };
+
   useEffect(() => {
     dispatch(getUsersFetch());
   }, [dispatch]);
@@ -68,34 +54,7 @@ export const ListUsers = () => {
         </span>
       </div>
       <div className="flex flex-wrap justify-between bg-white bg-opacity-30 h-auto  p-5 mx-5  rounded-lg">
-        {users.map((user, idx) => (
-          <div
-            className="flex flex-col  justify-between items-center w-44  p-5 mr-5 my-5  bg-white bg-opacity-30 rounded-lg"
-            key={user.id}
-          >
-            
-              <img
-              onClick={()=>navigate(`/profile/${user.id}`)}
-                className="  h-14  rounded-full"
-                src={
-                  user.photos.small
-                    ? user.photos.small
-                    : "https://openclipart.org/image/800px/177394"
-                }
-                alt="#"
-              />
-
-              <div className="pt-3">{user.name}</div>
-              <div className="pt-3">{user.status}</div>
-            
-            <button
-              onClick={(e) => followHandle(user)}
-              className="text-lg w-28 my-3 border-black border-solid border  bg-gray-300 hover:bg-gray-600 bg-opacity-70 rounded-lg"
-            >
-              {user.followed ? "Unsubscribe" : "Subscribe"}
-            </button>
-          </div>
-        ))}
+        {users.map((user, idx) => (<User key={idx} user={user} page={page} changePage={changePage}/>))}
       </div>
     </>
   );

@@ -19,6 +19,7 @@ import {
 import CommentsItem from "../components/CommentsItem";
 
 export const PostPage = () => {
+  
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState("");
   const { user } = useSelector((state) => state.auth);

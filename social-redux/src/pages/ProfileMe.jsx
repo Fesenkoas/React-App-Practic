@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getProfileFetch } from "../future/action/getUsersFetch";
+import { getProfileFetch, getStatusFetch } from "../future/action/getUsersFetch";
 import { useSelector } from "react-redux";
 import AboutMe from "../component/AboutMe";
 
 export const ProfileMe = () => {
   const dispatch = useDispatch();
-  const { profile, loading } = useSelector((state) => state.user);
+  const { profile, loading, status } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(getProfileFetch("24948"));
+    dispatch(getStatusFetch())
   }, [dispatch]);
 
-  const status = true;
+  const isstatus = true;
   return (
     <>
       {loading && (
@@ -29,7 +30,7 @@ export const ProfileMe = () => {
                   }
                   alt="#"
                 />
-                {status ? (
+                {isstatus ? (
                   <div className="text-lg my-5 border-black border-solid border  bg-green-500 bg-opacity-70 rounded-lg">
                     ONLINE
                   </div>
@@ -38,6 +39,9 @@ export const ProfileMe = () => {
                     OFFLINE
                   </div>
                 )}
+              </div>
+              <div className=" bg-white bg-opacity-40 rounded-lg">
+                {status}
               </div>
             </div>
             <AboutMe profile={profile}/>

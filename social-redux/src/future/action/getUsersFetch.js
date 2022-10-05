@@ -1,4 +1,4 @@
-import { getUsers, getProfile, loading, getFollowed } from "../redux/userSlice";
+import { getUsers, getProfile, loading, getFollowed, getStatus } from "../redux/userSlice";
 
 const baseURL = "https://social-network.samuraijs.com/api/1.0/";
 const instanseGet = {
@@ -26,7 +26,7 @@ const instanseDelete = {
 };
 
 export const getUsersFetch = (currentPage = 1) => (dispatch) => {
-    fetch(`${baseURL}users?page=${currentPage}&count=15`, instanseGet)
+    fetch(`${baseURL}users?page=${currentPage}&count=18`, instanseGet)
       .then((res) => res.json())
       .then((data) => dispatch(getUsers(data)));
   }
@@ -89,7 +89,7 @@ export const putPRofileFullFetch = (newData) => (dispatch) => {
 export const getStatusFetch = () => (dispatch) => {
     fetch(`${baseURL}profile/status/24948`, instanseGet)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => dispatch(getStatus(data)));
   }
 
 

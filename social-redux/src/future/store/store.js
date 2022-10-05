@@ -3,10 +3,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import userSlice from './../redux/userSlice';
 import { loggerEnhancer } from './../../miblleWare/thunkEnhancer';
 import { logger } from './../../miblleWare/loggerWare';
+import loginSlice from './../redux/loginSlice';
 
 export const store = configureStore({
     reducer: {
         user:userSlice,
+        login:loginSlice,
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(loggerEnhancer,logger)
   });
