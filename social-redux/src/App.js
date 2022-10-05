@@ -4,16 +4,18 @@ import { Layout } from "./component/Layout";
 import { MainPage } from "./pages/MainPage";
 import { Message } from "./pages/Message";
 import { ProfileUser } from "./pages/ProfileUser";
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import { ProfileMe } from './pages/ProfileMe';
-import { ListUsers } from './pages/ListUsers';
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+import { ProfileMe } from "./pages/ProfileMe";
+import { ListUsers } from "./pages/ListUsers";
+import {Setting} from "./pages/Setting";
 
 const App = () => {
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<ProfileMe />} />
+        <Route path="/setting" element={<Setting />} />
         <Route path="/message" element={<Message />} />
         <Route path="/users" element={<ListUsers />} />
         <Route path="/profile/:userId" element={<ProfileUser />} />
