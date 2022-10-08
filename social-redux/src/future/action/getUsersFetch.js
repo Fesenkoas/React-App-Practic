@@ -1,3 +1,4 @@
+import { getPhotoMessage } from "../redux/messageSlice";
 import { getUsers, getProfile, loading, getFollowed, getStatus } from "../redux/userSlice";
 
 const baseURL = "https://social-network.samuraijs.com/api/1.0/";
@@ -32,9 +33,8 @@ export const getUsersFetch = (currentPage = 1) => (dispatch) => {
   }
 
 export const postFollowFetch = (id) => (dispatch) => {
-    fetch(`${baseURL}follow/${id}`, instansePost).then(
-      (response) => response.data
-    );
+    fetch(`${baseURL}follow/${id}`, instansePost)
+    .then((response) => response.data);
   }
 
 export const deleteFollowFetch = (id) => (dispatch) => {
@@ -68,7 +68,7 @@ export const putStatusFetch = (newData) => (dispatch) => {
       body: JSON.stringify(newData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => dispatch(getPhotoMessage(data)));
   }
 
 export const putPRofileFullFetch = (newData) => (dispatch) => {
@@ -83,7 +83,7 @@ export const putPRofileFullFetch = (newData) => (dispatch) => {
       body: JSON.stringify(newData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => dispatch(getPhotoMessage(data)));
   }
 
 export const getStatusFetch = () => (dispatch) => {
@@ -104,5 +104,5 @@ export const putPhotoFetch = (newData) => (dispatch) => {
       body:newData,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => dispatch(getPhotoMessage(data)))
   }

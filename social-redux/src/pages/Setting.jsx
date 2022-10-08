@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getProfileFetch,
+  getStatusFetch,
   putPRofileFullFetch,
   putStatusFetch,
 } from "../future/action/getUsersFetch";
@@ -17,6 +18,8 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { putPhotoFetch } from "./../future/action/getUsersFetch";
+import { toast } from "react-toastify";
+import { getStatus } from "../future/redux/userSlice";
 
 // Забросил урок на 80 серии из-за кучи ошибок старого кода,решил переделать все на новый REACT-REDUX_RTK. Сделал с хуками не как в видео-уроке React 2022
 // REACT-REDUX-RTK, JAVASCRIPT, TYPESCRIPT, JAVA
@@ -25,10 +28,10 @@ import { putPhotoFetch } from "./../future/action/getUsersFetch";
 //https://vk.com/id8071280
 
 export const Setting = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { profile, loading } = useSelector((state) => state.user);
+  const { profile, loading, status } = useSelector((state) => state.user);
+  const { message } = useSelector((state) => state.message);
 
   const [facebook, setFacebook] = useState("");
   const [github, setGithub] = useState("");
@@ -42,11 +45,27 @@ export const Setting = () => {
   const [aboute, setAboute] = useState("");
   const [forJob, setForJob] = useState("0");
   const [isChecked, setIsChecked] = useState(false);
-  const [status, setStatus] = useState('')
+  const [newStatus, setStatus] = useState("");
+
+  const loadState = () => {
+    if (loading) {
+      setFacebook(profile.contacts.facebook);
+      setGithub(profile.contacts.github);
+      setInstagram(profile.contacts.instagram);
+      setMainLink(profile.contacts.mainLink);
+      setTwitter(profile.contacts.twitter);
+      setVk(profile.contacts.vk);
+      setWebsite(profile.contacts.website);
+      setYoutube(profile.contacts.youtube);
+      setAboute(profile.aboutMe);
+      setForJob(profile.lookingForAJobDescription);
+      setIsChecked(profile.lookingForAJob);
+      setStatus(status);
+    }
+  };
 
   const handleOnChange = () => {
     setIsChecked(!isChecked);
-    console.log(isChecked);
   };
 
   const handlePhoto = () => {
@@ -54,36 +73,43 @@ export const Setting = () => {
     if (photo) {
       data.append("image", photo);
       dispatch(putPhotoFetch(data));
-      setPhoto('')
+      dispatch(getProfileFetch("24948"));
+      setPhoto("");
+      toast(message);
       navigate("/");
-    }
+    } else toast("Choose Image file");
   };
-const handleStatus=() =>{
-  const objStatus = {
-    status,
+  const handleStatus = () => {
+    const objStatus = {
+      status: newStatus,
+    };
+    dispatch(putStatusFetch(objStatus));
+    dispatch(getStatusFetch());
+    navigate("/");
+    toast("Status changed");
   };
-  dispatch(putStatusFetch(objStatus))
-}
   const handeleSave = () => {
     try {
       const objProfile = {
         aboutMe: aboute || profile.aboutMe,
         contacts: {
-          facebook: facebook || profile.contacts.facebook,
-          website: website || profile.contacts.website,
-          vk: vk || profile.contacts.vk,
-          twitter: twitter || profile.contacts.twitter,
-          instagram: instagram || profile.contacts.instagram,
-          youtube: youtube || profile.contacts.youtube,
-          github: github || profile.contacts.github,
-          mainLink: mainLink || profile.contacts.mainLink,
+          facebook,
+          website,
+          vk,
+          twitter,
+          instagram,
+          youtube,
+          github,
+          mainLink,
         },
         fullName: "Casper",
         lookingForAJob: isChecked,
         lookingForAJobDescription: forJob,
       };
       dispatch(putPRofileFullFetch(objProfile));
+      dispatch(getProfileFetch("24948"));
       navigate("/");
+      toast("Profile changed");
     } catch (error) {
       console.log(error);
     }
@@ -91,13 +117,14 @@ const handleStatus=() =>{
 
   useEffect(() => {
     dispatch(getProfileFetch("24948"));
+    dispatch(getStatus());
+    loadState();
   }, [dispatch]);
 
   return (
     <>
       {loading && (
         <>
-       
           <div className="flex flex-col bg-white bg-opacity-30   h-min-96 mr-5 m-5 p-5  rounded-lg">
             Cange Photo:
             <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
@@ -127,14 +154,12 @@ const handleStatus=() =>{
           <div className="flex flex-col bg-white bg-opacity-30   h-min-96 mr-5 m-5 p-5  rounded-lg">
             Status:
             <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
-              <div className="flex items-center  mb-1 rounded-lg">
-                Status:
-              </div>
+              <div className="flex items-center  mb-1 rounded-lg">Status:</div>
               <input
                 type="text"
                 onChange={(e) => setStatus(e.target.value)}
-                value={status}
-                placeholder='status'
+                value={newStatus}
+                placeholder="status"
               />
             </div>
             <div className="text-center">
@@ -146,13 +171,13 @@ const handleStatus=() =>{
               </button>
             </div>
           </div>
+
           <div className="flex flex-col bg-white bg-opacity-30   h-min-96 mr-5 m-5 p-5  rounded-lg">
             <div>
               Contacts:
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex items-center  mb-1 rounded-lg">
                   <FaFacebook className="h-4 m-1" /> Facebook:
-                  {profile.contacts.facebook}
                 </div>
                 <input
                   className="w-96"
@@ -165,7 +190,6 @@ const handleStatus=() =>{
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex   items-center  mb-1 rounded-lg">
                   <FaGithub className="h-4 m-1" /> GitHub:
-                  {profile.contacts.github}
                 </div>
                 <input
                   onChange={(e) => setGithub(e.target.value)}
@@ -177,7 +201,6 @@ const handleStatus=() =>{
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex   items-center  mb-1 rounded-lg">
                   <FaInstagram className="h-4 m-1" /> Instagram:
-                  {profile.contacts.instagram}
                 </div>
                 <input
                   onChange={(e) => setInstagram(e.target.value)}
@@ -189,7 +212,6 @@ const handleStatus=() =>{
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex items-center  mb-1 rounded-lg">
                   <FaLinkedin className="h-4 m-1" /> Linkedin:
-                  {profile.contacts.mainLink}
                 </div>
                 <input
                   onChange={(e) => setMainLink(e.target.value)}
@@ -201,7 +223,6 @@ const handleStatus=() =>{
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex items-center  mb-1 rounded-lg">
                   <FaTwitter className="h-4 m-1" /> Twitter:
-                  {profile.contacts.twitter}
                 </div>
                 <input
                   onChange={(e) => setTwitter(e.target.value)}
@@ -213,7 +234,7 @@ const handleStatus=() =>{
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex items-center  mb-1 rounded-lg">
                   <FaVk className="h-4 m-1" />
-                  VK:{profile.contacts.vk}
+                  VK:
                 </div>
                 <input
                   onChange={(e) => setVk(e.target.value)}
@@ -225,7 +246,6 @@ const handleStatus=() =>{
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex  items-center  mb-1 rounded-lg">
                   <FaChrome className="h-4 m-1" /> WebSite:
-                  {profile.contacts.website}
                 </div>
                 <input
                   onChange={(e) => setWebsite(e.target.value)}
@@ -237,7 +257,6 @@ const handleStatus=() =>{
               <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
                 <div className="flex items-center  mb-1 rounded-lg">
                   <FaYoutube className="h-4 m-1" /> YouTube:
-                  {profile.contacts.youtube}
                 </div>
                 <input
                   onChange={(e) => setYoutube(e.target.value)}
@@ -256,8 +275,9 @@ const handleStatus=() =>{
               </div>
             </div>
           </div>
+
           <div className="flex flex-col bg-white bg-opacity-30   h-min-96 mr-5 m-5 p-5  rounded-lg">
-          Aboute Me:
+            Aboute Me:
             <div className=" bg-white bg-opacity-30 mr-5 m-5 p-5  rounded-lg">
               <div className="flex items-center  mb-1 rounded-lg">
                 Aboute Me:

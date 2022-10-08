@@ -1,5 +1,4 @@
 import React from "react";
-import SinglComment from "./SinglComment";
 import {
   FaFacebook,
   FaGithub,

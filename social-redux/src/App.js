@@ -9,6 +9,8 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { ProfileMe } from "./pages/ProfileMe";
 import { ListUsers } from "./pages/ListUsers";
 import {Setting} from "./pages/Setting";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
@@ -23,6 +25,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
+      <ToastContainer position="bottom-right" />
     </Layout>
   );
 };
