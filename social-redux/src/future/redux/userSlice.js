@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   loading: false,
   users: [],
+  followers:[],
   totalCount: null,
   status: "",
   profile: {},
@@ -14,6 +15,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     getUsers(state, action) {
+      console.log(action.payload.items);
       state.users = action.payload.items;
       state.totalCount = action.payload.totalCount;
     },
@@ -26,6 +28,7 @@ const userSlice = createSlice({
       state.loading = action.payload;
     },
     getFollowed(state, action) {
+      //console.log(action.payload);
       state.followed = action.payload;
     },
     getStatus(state,action){
