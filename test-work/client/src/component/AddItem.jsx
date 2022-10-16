@@ -33,6 +33,7 @@ export const AddItem = () => {
   return (
     <>
       <h1 className="text-center font-bold p-2">ADD ITEM</h1>
+
       <form className="flex" onSubmit={(e) => e.preventDefault()}>
         <label className="flex flex-row m-auto">
           <input
@@ -44,6 +45,7 @@ export const AddItem = () => {
             type="text"
             placeholder="add title"
           />
+
           <input
             onChange={(e) => {
               setQuantity(e.target.value);
@@ -54,6 +56,7 @@ export const AddItem = () => {
             min="1"
             placeholder="add quantity"
           />
+
           <input
             onChange={(e) => {
               setDistance(e.target.value);
@@ -64,6 +67,7 @@ export const AddItem = () => {
             min="1"
             placeholder="add distance"
           />
+
           <button
             onClick={handleClick}
             className="bg-gray-400 border-black border-solid border-2 w-24 m-4 p-1 rounded-lg hover:bg-sky-200"
