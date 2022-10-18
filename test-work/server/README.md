@@ -17,4 +17,5 @@ You may also see any lint errors in the console.
 
 Connect Data Base
 
-For Mongo Compass (mongodb+srv://Aleksander:12345@cluster0.q408pmi.mongodb.net/test)
+For MongoDB Compass (https://downloads.mongodb.com/compass/mongodb-compass-1.33.1-darwin-arm64.dmg) 
+UrlDB (mongodb+srv://Aleksander:12345@cluster0.q408pmi.mongodb.net/test)
