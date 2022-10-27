@@ -22,6 +22,9 @@ app.use(express.json())
 //http://localhost:3002
 app.use('/api/item',itemRoute )
 
+app.get('/',(req,res)=>{
+  res.send('Hello server');
+});
 
 async function start() {
     try {
